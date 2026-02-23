@@ -37,14 +37,13 @@ class BookingController extends Controller
             if ($request->wantsJson()) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Booking created successfully!',
+                    'message' => 'Booking created! Redirecting to payment...',
                     'booking' => $booking,
-                    'redirect' => route('booking.confirmation', $booking->booking_reference)
+                    'redirect' => route('payment.checkout', $booking->booking_reference)
                 ]);
             }
 
-            return redirect()->route('booking.confirmation', $booking->booking_reference)
-                ->with('success', 'Your booking has been confirmed!');
+            return redirect()->route('payment.checkout', $booking->booking_reference);
         }
         catch (\Exception $e) {
             if ($request->wantsJson()) {

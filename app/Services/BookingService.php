@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Booking;
 use App\Models\DailyCapacity;
-use App\Events\BookingCreated;
+use App\Services\SenangPayService;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -12,7 +12,8 @@ class BookingService
 {
     public function __construct(private
         AvailabilityService $availabilityService, private
-        CapacityService $capacityService
+        CapacityService $capacityService, private
+        SenangPayService $senangPayService
         )
     {
     }
@@ -36,6 +37,13 @@ class BookingService
             // Generate booking reference
             $bookingReference = Booking::generateBookingReference();
 
+            // Calculate total amount
+            $totalAmount = $this->senangPayService->calculateAmount(
+                $data['adults'] ?? 1,
+                $data['children'] ?? 0,
+                $data['oku'] ?? 0
+            );
+
             // Create booking
             $booking = Booking::create([
                 'booking_reference' => $bookingReference,
@@ -48,16 +56,15 @@ class BookingService
                 'oku' => $data['oku'] ?? 0,
                 'baby_chairs' => $data['baby_chairs'] ?? 0,
                 'total_pax' => $totalPax,
+                'total_amount' => $totalAmount,
                 'booking_date' => $data['booking_date'],
-                'status' => $data['status'] ?? 'confirmed',
+                'status' => 'pending',
+                'payment_status' => 'unpaid',
                 'created_by_staff' => $data['created_by_staff'] ?? false,
             ]);
 
             // Update capacity
             $this->capacityService->updateCurrentBookings($data['booking_date'], $totalPax);
-
-            // Fire event
-            event(new BookingCreated($booking));
 
             return $booking;
         });

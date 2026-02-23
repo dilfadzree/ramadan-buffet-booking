@@ -35,4 +35,21 @@ return [
         ],
     ],
 
+    'senangpay' => [
+        'merchant_id' => env('SENANGPAY_MERCHANT_ID', ''),
+        'secret_key' => env('SENANGPAY_SECRET_KEY', ''),
+        'sandbox' => env('SENANGPAY_SANDBOX', true),
+        'prices' => [
+            'adult' => env('BUFFET_PRICE_ADULT', 89),
+            'child' => env('BUFFET_PRICE_CHILD', 45),
+            'oku' => env('BUFFET_PRICE_OKU', 45),
+        ],
+    ],
+
+    'toyyibpay' => [
+        'secret_key' => env('TOYYIBPAY_SECRET_KEY', ''),
+        'category_code' => env('TOYYIBPAY_CATEGORY_CODE', ''),
+        'sandbox' => env('TOYYIBPAY_SANDBOX', true),
+    ],
+
 ];

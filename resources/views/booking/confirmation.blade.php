@@ -53,6 +53,14 @@
                     <span class="text-gray-400">Total Pax:</span>
                     <span class="text-white font-bold text-lg">{{ $booking->total_pax }} pax</span>
                 </div>
+                <div class="flex justify-between border-t border-white/10 pt-2 mt-2">
+                    <span class="text-gray-400">Total Amount:</span>
+                    <span class="text-gold-400 font-bold text-lg">RM {{ number_format($booking->total_amount, 2) }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Payment Status:</span>
+                    <span class="text-emerald-400 font-bold">{{ ucfirst($booking->payment_status) }}</span>
+                </div>
             </div>
         </div>
 

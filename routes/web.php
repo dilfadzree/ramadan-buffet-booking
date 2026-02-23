@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Staff\BookingController as StaffBookingController;
 use App\Http\Controllers\Staff\CapacityController;
 use App\Http\Controllers\Staff\DashboardController;
@@ -19,6 +20,15 @@ Route::get('/', [LandingPageController::class, 'index'])->name('landing');
 Route::get('/booking', [BookingController::class, 'create'])->name('booking.create');
 Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 Route::get('/booking/confirmation/{reference}', [BookingController::class, 'confirmation'])->name('booking.confirmation');
+
+// Payment routes (static routes before dynamic {reference})
+Route::get('/payment/senangpay/return', [PaymentController::class, 'senangPayReturn'])->name('payment.senangpay.return');
+Route::post('/payment/senangpay/callback', [PaymentController::class, 'senangPayCallback'])->name('payment.senangpay.callback');
+Route::get('/payment/toyyibpay/return', [PaymentController::class, 'toyyibPayReturn'])->name('payment.toyyibpay.return');
+Route::post('/payment/toyyibpay/callback', [PaymentController::class, 'toyyibPayCallback'])->name('payment.toyyibpay.callback');
+Route::get('/payment/{reference}', [PaymentController::class, 'show'])->name('payment.checkout');
+Route::get('/payment/{reference}/toyyibpay', [PaymentController::class, 'toyyibPayRedirect'])->name('payment.toyyibpay.redirect');
+Route::get('/payment/{reference}/failed', [PaymentController::class, 'failed'])->name('payment.failed');
 
 // API routes for AJAX
 Route::get('/api/check-availability', [BookingController::class, 'checkAvailability'])->name('api.check-availability');

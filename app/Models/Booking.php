@@ -21,8 +21,14 @@ class Booking extends Model
         'oku',
         'baby_chairs',
         'total_pax',
+        'total_amount',
         'booking_date',
         'status',
+        'payment_status',
+        'payment_method',
+        'transaction_id',
+        'senangpay_reference',
+        'paid_at',
         'created_by_staff',
     ];
 
@@ -34,6 +40,8 @@ class Booking extends Model
         'oku' => 'integer',
         'baby_chairs' => 'integer',
         'total_pax' => 'integer',
+        'total_amount' => 'decimal:2',
+        'paid_at' => 'datetime',
     ];
 
     /**
